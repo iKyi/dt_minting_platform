@@ -1,0 +1,3 @@
+export enum GENERAL_SETTINGS {
+  SNACKBAR_TIMEOUT = 6000,
+}
