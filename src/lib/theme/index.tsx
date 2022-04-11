@@ -11,6 +11,7 @@ import MainBg from "assets/layout/background.png";
 
 export enum FONTS {
   FURORE = "Furore, sans-serif, Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+  CHAKRA = "Chakra Petch, sans-serif, Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
 }
 
 declare module "@mui/material/Button" {
@@ -19,7 +20,7 @@ declare module "@mui/material/Button" {
 
 let ImmortalMuITheme = createTheme({
   typography: {
-    fontFamily: FONTS.FURORE,
+    fontFamily: FONTS.CHAKRA,
     h1: {
       fontFamily: FONTS.FURORE,
     },
@@ -97,7 +98,7 @@ const getOverRides = (theme: Theme) => {
         ],
         styleOverrides: {
           root: {
-            fontFamily: FONTS.FURORE,
+            fontFamily: FONTS.CHAKRA,
             textShadow: "1px 1px 0px rgba(0,0,0,0.75)",
           },
         },
@@ -123,7 +124,13 @@ const getOverRides = (theme: Theme) => {
           html: {
             height: "100%",
           },
-          "& #root": {},
+          "& #root": {
+            position: "relative",
+            zIndex: 2,
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+          },
           p: {
             margin: 0,
           },
@@ -198,7 +205,6 @@ const getOverRides = (theme: Theme) => {
       MuiTableCell: {
         styleOverrides: {
           root: {
-            fontFamily: FONTS.FURORE,
             borderColor: theme.palette.secondary.main,
             paddingTop: "6px",
             paddingBottom: "6px",
