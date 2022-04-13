@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import FeaturedMintsWrapper from "components/Pages/Homepage/FeaturedMints/FeaturedMintsWrapper";
 import IntroBoxes from "components/Pages/Homepage/IntroBoxes";
 import PageWithNavWrapper from "components/Reusable/Layout/PageWithNavWrapper";
