@@ -1,17 +1,17 @@
-import { SxProps } from "@mui/material";
+import { SxProps, Theme } from "@mui/material";
 
-export const centerFlex: SxProps = {
+export const centerFlex: SxProps<Theme> = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 };
 
-export const flexColumn: SxProps = {
+export const flexColumn: SxProps<Theme> = {
   display: "flex",
   flexDirection: "column",
 };
 
-export const flexBetween: SxProps = {
+export const flexBetween: SxProps<Theme> = {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",

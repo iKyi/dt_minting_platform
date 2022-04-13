@@ -21,7 +21,7 @@ const AppLoader: React.VFC<AppLoaderPropsType> = () => {
       variants={variants}
       style={{
         position: "fixed",
-        left: 20,
+        left: isOpen ? 20 : -200,
         bottom: 20,
         zIndex: 99999,
         backgroundColor: `rgba(0,0,0,0.65)`,

@@ -1,18 +1,20 @@
 import { Box, styled } from "@mui/material";
 import { GENERAL_SETTINGS } from "constants/generalSettings";
 import AppLeftMenu from "components/Reusable/Layout/AppLeftMenu";
-import PublicHeader from "./PublicHeader";
+import PublicHeader, { PublicHeaderHeight } from "./PublicHeader/PublicHeader";
 
-export const LeftNavDesktopWidth = 240;
+export const LeftNavDesktopWidth = 220;
 
 const DesktopLeftMenuWrapper = styled(Box)(({ theme }) => ({
   width: LeftNavDesktopWidth,
   position: "sticky",
-  top: 0,
+  top: PublicHeaderHeight + 20,
   left: 0,
-  maxHeight: "100vh",
+  alignSelf: "flex-start",
+  [theme.breakpoints.up("md")]: {
+    maxHeight: `calc(100vh - ${PublicHeaderHeight}px)`,
+  },
   overflowY: "auto",
-  paddingTop: theme.spacing(3),
   [theme.breakpoints.down("md")]: {
     display: "none",
   },
@@ -33,6 +35,7 @@ const MainWrapper = styled(Box)(({ theme }) => ({
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
   width: `calc(100% - ${LeftNavDesktopWidth}px)`,
+  padding: `0 ${theme.spacing(1.5)} 0 ${theme.spacing(1.5)}`,
   [theme.breakpoints.down("md")]: {
     width: "100%",
   },

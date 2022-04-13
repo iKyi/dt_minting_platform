@@ -11,6 +11,7 @@ import NftsPage from "pages/NftsPage";
 import LaunchpadPage from "pages/LaunchpadPage";
 import DevelopersPage from "pages/DevelopersPage";
 import ProjectsPage from "pages/ProjectsPage";
+import LaunchpadPageEntry from "components/Pages/LaunchpadEntry/LaunchpadPageEntry";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route element={<AboutUsPage />} path="/about-us" />
         <Route element={<NftsPage />} path="/nfts" />
         <Route element={<LaunchpadPage />} path="/launchpad" />
+        <Route element={<LaunchpadPageEntry />} path="/launchpad/:id" />
         <Route element={<ProjectsPage />} path="/projects" />
         <Route element={<DevelopersPage />} path="/developers" />
         <Route element={<FourOhFour />} path="*" />

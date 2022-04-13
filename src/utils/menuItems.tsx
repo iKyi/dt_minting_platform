@@ -35,23 +35,27 @@ const navMenuItems: INavMenuItem[] = [
     title: "NFTs",
     url: "/nfts/",
     icon: NftsIcon,
+    disabled: true,
   },
   {
     title: "About us",
     url: "/about-us/",
     icon: AboutUsIcon,
+    disabled: true,
   },
   {
     category: "Jobs",
     title: "Projects",
     url: "/projects",
     icon: StarIcon,
+    disabled: true,
   },
   {
     category: "Jobs",
     title: "Developers",
     url: "/developers",
     icon: ChipIcon,
+    disabled: true,
   },
 ];
 

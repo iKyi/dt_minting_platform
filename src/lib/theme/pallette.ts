@@ -9,9 +9,12 @@ const getDesignTokens = (mode: PaletteMode) => ({
         } as ThemeOptions["palette"])
       : ({
           // palette values for dark mode
+          text: {
+            primary: "#C4C4C4",
+          },
           primary: {
             main: "#36F097",
-            contrastText: "#ffffff",
+            contrastText: "#C4C4C4",
             dark: "#010E08",
             light: "#AEFAD5",
             darker: "#38654F",
@@ -37,6 +40,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
             white: "#fff",
             gray: "#777777",
             lightGray: "#C6C6C6",
+            black: "#000",
           },
         } as ThemeOptions["palette"])),
   },

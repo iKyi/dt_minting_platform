@@ -64,7 +64,6 @@ const getOverRides = (theme: Theme) => {
         styleOverrides: {
           root: {
             button: {
-              textShadow: "none",
               fontSize: "1.05rem",
               "&:first-of-type": {
                 clipPath:
@@ -98,8 +97,8 @@ const getOverRides = (theme: Theme) => {
         ],
         styleOverrides: {
           root: {
+            fontWeight: "700",
             fontFamily: FONTS.CHAKRA,
-            textShadow: "1px 1px 0px rgba(0,0,0,0.75)",
           },
         },
       },
