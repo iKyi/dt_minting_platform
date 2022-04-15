@@ -1,14 +1,16 @@
-import { Box, Typography } from "@mui/material";
+import { Box, CardActionArea, Typography } from "@mui/material";
 import MarkdownParser from "components/Reusable/MarkdownParser";
 import { FONTS } from "lib/theme";
 import CountDownBox from "../Homepage/FeaturedMints/CountDownBox";
 import FeaturedSupplySocialBox from "../Homepage/FeaturedMints/FeaturedSupplySocialBox";
 import { Link as RouterLink } from "react-router-dom";
+import { getStrapiMedia } from "lib/theme/media";
 import { ITeamMember } from "lib/interfaces/ITeamMember";
 
 export type IMintDataType = {
   name: string;
   id: string;
+  mintId: string;
   description: string;
   supply: number;
   image: string;
@@ -22,7 +24,18 @@ export type IMintDataType = {
   tags?: string[];
   roadmap?: string;
   whitepaperUrl?: string;
-  teamMembers?: ITeamMember[];
+  candyMachineId: string;
+  whitelistOne: boolean;
+  whitelistOneText: string;
+  whitelistTwo: boolean;
+  whitelistTwoText: string;
+  whitelistThree: boolean;
+  whitelistThreeText: string;
+  publicMint: boolean;
+  teamMembers?: {
+    data: { attributes: ITeamMember }[];
+  };
+  whitelistedWallets: Record<any, any>;
 };
 
 export type FeaturedMintEntryPropsType = {
@@ -41,7 +54,7 @@ const FeaturedMintEntry: React.VFC<FeaturedMintEntryPropsType> = ({
     released,
     siteUrl,
     twitter,
-    id,
+    mintId,
   },
 }) => {
   // *************** RENDER *************** //
@@ -57,18 +70,20 @@ const FeaturedMintEntry: React.VFC<FeaturedMintEntryPropsType> = ({
         },
       }}
     >
-      <Box
+      <CardActionArea
         sx={{
           mb: [0.5, 0.5, 0],
           alignSelf: "stretch",
           display: "flex",
           minHeight: 160,
-          background: `url('${image}')`,
+          background: `url('${getStrapiMedia(image)}')`,
           backgroundSize: "cover",
           backgroundPosition: "center center",
           width: "160px",
           mx: ["auto", "auto", undefined],
         }}
+        component={RouterLink}
+        to={`/launchpad/${mintId}`}
       />
       {/* RIGHT SIDE CONTENT HERE */}
       <Box
@@ -95,10 +110,11 @@ const FeaturedMintEntry: React.VFC<FeaturedMintEntryPropsType> = ({
               fontFamily: FONTS.FURORE,
               mb: [1, 1.5],
               display: "block",
+              textDecoration: "none",
             }}
             color="error"
             component={RouterLink}
-            to={`/launchpad/${id}`}
+            to={`/launchpad/${mintId}`}
           >
             {name}
           </Typography>

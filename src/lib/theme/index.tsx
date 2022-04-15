@@ -163,16 +163,6 @@ const getOverRides = (theme: Theme) => {
           h6: {
             fontFamily: FONTS.FURORE,
           },
-          ".wallet-adapter-button-start-icon": {
-            lineHeight: 1,
-          },
-          ".wallet-adapter-button": {
-            justifyContent: "center",
-            fontFamily: FONTS.FURORE,
-            fontWeight: 300,
-            color: theme.palette.error.main,
-            textAlign: "center",
-          },
           // ".wallet-adapter-button.loginButtonSmall": {
           //   background: `url('${RedSharp}')`,
           //   backgroundSize: "100% 100%",

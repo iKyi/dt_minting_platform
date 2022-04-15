@@ -3,6 +3,7 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
+
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
   LedgerWalletAdapter,
@@ -13,10 +14,13 @@ import {
   SolletWalletAdapter,
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
+import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
+
+const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
 
 export type AuthProviderWalletWrapperPropsType = {
   children?: any;
@@ -32,9 +36,7 @@ const AuthProviderWalletWrapper: React.VFC<
 
   // const endpoint = process.env.REACT_APP_RPC_URL ?? "";
 
-  // AG: forcing mainnet on dev env for testing
-  const network = WalletAdapterNetwork.Mainnet;
-  const endpoint = "https://ssc-dao.genesysgo.net";
+  const endpoint = useMemo(() => clusterApiUrl(network), []);
 
   const wallets = useMemo(
     () => [
@@ -46,7 +48,7 @@ const AuthProviderWalletWrapper: React.VFC<
       new SolletWalletAdapter({ network }),
       new SolletExtensionWalletAdapter({ network }),
     ],
-    [network]
+    []
   );
 
   return (

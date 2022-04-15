@@ -7,6 +7,24 @@ import { closeSnackbar } from "features/global/globalSlice";
 export type SnackbarProviderPropsType = {};
 
 const SnackbarProvider: React.VFC<SnackbarProviderPropsType> = () => {
+  // const fillerItems: ISmallSnackbar[] = [
+  //   {
+  //     content: " lala",
+  //     id: "lala1",
+  //     variant: "success",
+  //   },
+  //   {
+  //     content: " lala",
+  //     id: "lala1",
+  //     variant: "info",
+  //   },
+  //   {
+  //     content: " lala",
+  //     id: "lala1",
+  //     variant: "error",
+  //   },
+  // ];
+
   const dispatch = useAppDispatch();
   const { snackBars } = useAppSelector((state) => state.global);
   const snackbarVisible = snackBars.length > 0;
@@ -23,7 +41,7 @@ const SnackbarProvider: React.VFC<SnackbarProviderPropsType> = () => {
       <Box>
         <AnimatePresence>
           {snackBars.map((entry) => {
-            const success = entry.variant === "success";
+            const errorState = entry.variant === "error";
             return (
               <motion.div
                 key={entry.id}
@@ -40,6 +58,9 @@ const SnackbarProvider: React.VFC<SnackbarProviderPropsType> = () => {
                   opacity: 0.5,
                 }}
                 transition={{ duration: 1 }}
+                style={{
+                  marginBottom: "10px",
+                }}
               >
                 <CardActionArea
                   onClick={() => dispatch(closeSnackbar(entry.id))}
@@ -48,21 +69,22 @@ const SnackbarProvider: React.VFC<SnackbarProviderPropsType> = () => {
                       !mobile
                         ? "none"
                         : `2px solid ${theme.palette.primary.main}`,
-                    borderRadius: mobile ? 0 : "15px",
-                    backgroundPosition: "center center",
-                    maxWidth: "100%",
-                    height: "100px",
+                    borderRadius: 0,
+                    bgcolor: `rgba(0,0,0,0.85)`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: !success ? "error.main" : "primary.main",
+                    color: errorState ? "error.main" : "primary.main",
                     fontSize: "1.1rem",
                     textTransform: "uppercase",
                     textAlign: "center",
                     lineHeight: 1.3,
-                    px: mobile ? "none" : 20,
-                    minHeight: mobile ? "0px" : "140px",
+                    px: mobile ? 2 : 5,
+                    py: 2,
+                    width: "200px",
+                    maxWidth: "100%",
                     textShadow: "1px 1px 1px black",
+                    fontWeight: 700,
                   }}
                 >
                   <Stack>

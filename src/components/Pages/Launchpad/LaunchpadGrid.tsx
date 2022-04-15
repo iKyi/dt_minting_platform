@@ -19,7 +19,7 @@ const LaunchpadGrid: React.VFC<LaunchpadGridPropsType> = ({ items, title }) => {
       </Grid>
       {items.map((item) => {
         return (
-          <Grid key={item.id} item xs={6} md={4} lg={3}>
+          <Grid key={item.name} item xs={6} md={4} lg={3}>
             <LaunchPadGridEntry data={item} />
           </Grid>
         );

@@ -1,4 +1,5 @@
 import { OpenInNew } from "@mui/icons-material";
+import * as anchor from "@project-serum/anchor";
 import {
   Box,
   Divider,
@@ -9,10 +10,15 @@ import {
 } from "@mui/material";
 import { IMintDataType } from "components/Pages/Launchpad/FeaturedMintEntry";
 import SquareBorderBox from "components/Reusable/Layout/SquareBorderBox";
-import MintProgressInfo from "components/Reusable/MintProgressInfo";
 import SocialList from "components/Reusable/SocialList";
 import ValueBox from "components/Reusable/ValueBox";
+import useMintConnectionActions from "hooks/useMintConnectionActions";
 import { centerFlex, flexColumn } from "lib/sxUtils";
+import { getStrapiMedia } from "lib/theme/media";
+import { useMemo } from "react";
+import InfoWhitelistBoxes from "./InfoWhitelistBoxes";
+import MintButtonWrapper from "./MintButtonWrapper";
+import CandyMachineBasedStatus from "./CandyMachineBasedStatus";
 
 const TagsWhitepaperBox: React.FC<
   Pick<IMintDataType, "tags" | "whitepaperUrl">
@@ -76,9 +82,22 @@ const TagsWhitepaperBox: React.FC<
   );
 };
 
-const HeaderPart: React.FC<{ data: IMintDataType }> = ({
-  data: { supply, mintPrice, soldOut, releaseDate, discord, siteUrl, twitter },
+const HeaderPart: React.FC<{
+  data: IMintDataType;
+  candyMachine: any;
+  isActive: boolean;
+  endDate: Date | undefined;
+  toggleMintButton: () => void;
+  isPresale: boolean;
+}> = ({
+  data,
+  candyMachine,
+  isActive,
+  endDate,
+  toggleMintButton,
+  isPresale,
 }) => {
+  const { supply, mintPrice, discord, siteUrl, twitter } = data;
   return (
     <Box>
       <Grid container spacing={[1.5, 1.5, 2.5]}>
@@ -88,19 +107,27 @@ const HeaderPart: React.FC<{ data: IMintDataType }> = ({
         <Grid item xs={12} sm={6} lg={3}>
           <ValueBox title="Mint price" value={`${mintPrice} SOL`} />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
-          <Box
-            sx={{
-              bgcolor: `rgba(0,0,0,0.18)`,
-              py: [0.7, 0.7, 0.9],
-              px: 1.5,
-              textAlign: "center",
-              textTransform: "uppercase",
-            }}
-          >
-            <MintProgressInfo releaseDate={releaseDate} soldOut={soldOut} />
-          </Box>
-        </Grid>
+        {candyMachine && (
+          <Grid item xs={12} sm={6} lg={3}>
+            <Box
+              sx={{
+                bgcolor: `rgba(0,0,0,0.18)`,
+                py: [0.7, 0.7, 0.9],
+                px: 1.5,
+                textAlign: "center",
+                textTransform: "uppercase",
+              }}
+            >
+              <CandyMachineBasedStatus
+                candyMachine={candyMachine}
+                isActive={isActive}
+                endDate={endDate}
+                isPresale={isPresale}
+                toggleMintButton={toggleMintButton}
+              />
+            </Box>
+          </Grid>
+        )}
         <Grid item xs={12} sm={6} lg={3}>
           <Box
             sx={{
@@ -127,7 +154,40 @@ export type LuanchpadpageTopPartPropsType = {
 const LuanchpadpageTopPart: React.VFC<LuanchpadpageTopPartPropsType> = ({
   data,
 }) => {
-  const { image, name, description, tags, whitepaperUrl } = data;
+  const { image, name, description, tags, whitepaperUrl, candyMachineId } =
+    data;
+
+  // *************** PROPERTIES FOR TRIGGERING MINT API *************** //
+  const candyMachineIdParsed = useMemo(() => {
+    return new anchor.web3.PublicKey(candyMachineId);
+  }, [candyMachineId]);
+
+  const rpcHost = process.env.REACT_APP_SOLANA_RPC_HOST!;
+  const connection = useMemo(() => {
+    return new anchor.web3.Connection(
+      rpcHost ? rpcHost : anchor.web3.clusterApiUrl("devnet")
+    );
+  }, [rpcHost]);
+
+  const {
+    isUserMinting,
+    onMint,
+    isActive,
+    itemsRemaining,
+    candyMachine,
+    setIsUserMinting,
+    endDate,
+    toggleMintButton,
+    isWhitelistUser,
+    isPresale,
+    connection: parsedConnection,
+  } = useMintConnectionActions({
+    candyMachineId: candyMachineIdParsed,
+    connection: connection,
+    rpcHost: rpcHost,
+  });
+  // *************** END HERE --- PROPERTIES FOR TRIGGERING MINT API *************** //
+
   // *************** RENDER *************** //
   return (
     <SquareBorderBox
@@ -147,9 +207,21 @@ const LuanchpadpageTopPart: React.VFC<LuanchpadpageTopPartPropsType> = ({
           }}
         >
           <Box sx={{ ...flexColumn, height: "100%" }}>
-            <HeaderPart data={data} />
+            {/* HEADER BAR */}
+            <HeaderPart
+              data={data}
+              candyMachine={candyMachine}
+              isActive={isActive}
+              endDate={endDate}
+              toggleMintButton={toggleMintButton}
+              isPresale={isPresale}
+            />
             <Divider sx={{ my: [1.5, 1.5, 2] }} />
+            {/* DESCRIPTIOn */}
             {description && <Typography>{description}</Typography>}
+            {/* WHITELIST BOXES */}
+            <InfoWhitelistBoxes data={data} itemsRemaining={itemsRemaining} />
+            {/* TAGS BOXES */}
             <TagsWhitepaperBox tags={tags} whitepaperUrl={whitepaperUrl} />
           </Box>
           {/* CONTENT ENDS HERE */}
@@ -165,10 +237,30 @@ const LuanchpadpageTopPart: React.VFC<LuanchpadpageTopPartPropsType> = ({
           }}
         >
           <img
-            src={image}
+            src={getStrapiMedia(image)}
             alt={`Mint pic for ${name}`}
             style={{ width: "100%", height: "auto" }}
           />
+          <MintButtonWrapper
+            isActive={isActive}
+            isUserMinting={isUserMinting}
+            onMint={onMint}
+            setIsUserMinting={setIsUserMinting}
+            candyMachine={candyMachine}
+            isPresale={isPresale}
+            isWhitelistUser={isWhitelistUser}
+            connection={parsedConnection}
+            rpcHost={rpcHost}
+            data={data}
+          />
+          {/* <MintButton
+            isActive={isActive}
+            isMinting={isUserMinting}
+            onMint={onMint}
+            candyMachine={candyMachine}
+            setIsMinting={setIsUserMinting}
+          /> */}
+          {/* <MintButtonLaunch mintAction={onMint} data={data} /> */}
         </Grid>
       </Grid>
     </SquareBorderBox>

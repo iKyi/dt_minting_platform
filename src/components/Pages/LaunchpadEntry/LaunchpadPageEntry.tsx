@@ -1,6 +1,6 @@
 import BoxLoader from "components/Reusable/BoxLoader";
 import PageWithNavWrapper from "components/Reusable/Layout/PageWithNavWrapper";
-import futureMints from "mockData/futureMints";
+import { axiosStrapiGetter } from "lib/axios/axiosGetter";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IMintDataType } from "../Launchpad/FeaturedMintEntry";
@@ -15,12 +15,20 @@ const LaunchpadPageEntry: React.VFC<LaunchpadPageEntryPropsType> = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const pageData = futureMints.find((item) => item.id === paramId);
-    if (!pageData) {
-      navigate("/404");
-    } else {
-      setPageData(pageData);
-    }
+    axiosStrapiGetter(
+      `mint-collections?populate=*&filters[mintId][$eq]=${paramId}`
+    )
+      .then((resp) => {
+        const pageData = resp.data[0].attributes;
+        if (!pageData) {
+          navigate("/404");
+        } else {
+          setPageData(pageData);
+        }
+      })
+      .catch((err) => {
+        navigate("/404");
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // *************** RENDER *************** //

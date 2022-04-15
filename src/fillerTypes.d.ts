@@ -4,3 +4,11 @@ declare module "*.mp4" {
 }
 
 declare module "timers-browserify";
+
+declare module "react/jsx-runtime" {
+  export default any;
+}
+
+declare module "Buffer" {
+  export default any;
+}

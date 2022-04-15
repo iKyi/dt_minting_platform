@@ -5,17 +5,22 @@ import futureMints from "mockData/futureMints";
 import FeaturedMintEntry, {
   IMintDataType,
 } from "../../Launchpad/FeaturedMintEntry";
+import { axiosStrapiGetter } from "lib/axios/axiosGetter";
 
-export type FeaturedMintsWrapperPropsType = {
-  children?: any;
+export const mapCollectionsUtil = (collections: any) => {
+  return collections?.map((item: any) => item.attributes);
 };
 
-const FeaturedMintsWrapper: React.VFC<FeaturedMintsWrapperPropsType> = ({
-  children,
-}) => {
+export type FeaturedMintsWrapperPropsType = {};
+
+const FeaturedMintsWrapper: React.VFC<FeaturedMintsWrapperPropsType> = () => {
   const [mintItems, setMintItems] = useState<IMintDataType[]>([]);
 
   useEffect(() => {
+    axiosStrapiGetter("mint-collections?populate=*").then((procResponse) => {
+      const { data } = procResponse;
+      setMintItems(mapCollectionsUtil(data));
+    });
     setMintItems(futureMints);
   }, []);
 
@@ -26,7 +31,7 @@ const FeaturedMintsWrapper: React.VFC<FeaturedMintsWrapperPropsType> = ({
       {mintItems.map((item) => {
         return <FeaturedMintEntry data={item} key={item.name} />;
       })}
-      {children}
+      {!mintItems || mintItems.length === 0 ? "No future events" : null}
     </SquareBorderBox>
   );
 };

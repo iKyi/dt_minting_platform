@@ -2,6 +2,7 @@ import { MenuOpenOutlined } from "@mui/icons-material";
 import { Box, IconButton, styled } from "@mui/material";
 import LogoSmallIcon from "components/Icons/LogoSmall";
 import SocialList from "components/Reusable/SocialList";
+import WalletLoginButtonTheme from "components/Reusable/WalletLoginButtonTheme";
 import { GENERAL_SETTINGS } from "constants/generalSettings";
 import dtSocialLinks from "constants/socialLinks";
 import { centerFlex } from "lib/sxUtils";
@@ -73,6 +74,7 @@ const PublicHeader: React.VFC<PublicHeaderPropsType> = ({ children }) => {
             }}
           >
             {children}
+            <WalletLoginButtonTheme propStyles={{ marginRight: "10px" }} />
             <SocialList
               discord={dtSocialLinks.discord}
               twitter={dtSocialLinks.twitter}

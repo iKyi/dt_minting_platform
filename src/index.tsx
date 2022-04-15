@@ -6,19 +6,16 @@ import StoreProvider from "providers/StoreProvider";
 import RouterProvider from "providers/RouterProvider";
 import DarkTerminalThemeProvider from "lib/theme";
 import AuthProviderWalletWrapper from "providers/AuthProviderWalletWrapper";
-import AuthDarkTerminalClassWrapper from "providers/AuthDarkTerminalClassWrapper";
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
       <AuthProviderWalletWrapper>
-        <AuthDarkTerminalClassWrapper>
-          <DarkTerminalThemeProvider>
-            <RouterProvider>
-              <App />
-            </RouterProvider>
-          </DarkTerminalThemeProvider>
-        </AuthDarkTerminalClassWrapper>
+        <DarkTerminalThemeProvider>
+          <RouterProvider>
+            <App />
+          </RouterProvider>
+        </DarkTerminalThemeProvider>
       </AuthProviderWalletWrapper>
     </StoreProvider>
   </React.StrictMode>,

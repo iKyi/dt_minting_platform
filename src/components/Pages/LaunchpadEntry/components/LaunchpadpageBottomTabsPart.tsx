@@ -44,8 +44,10 @@ export type LaunchpadpageBottomTabsPartPropsType = {
 
 const LaunchpadpageBottomTabsPart: React.VFC<
   LaunchpadpageBottomTabsPartPropsType
-> = ({ data: { teamMembers, roadmap } }) => {
+> = ({ data: { roadmap, teamMembers } }) => {
   const [value, setValue] = useState(0);
+  const localMembers =
+    teamMembers?.data?.map((item) => item.attributes) ?? null;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -57,12 +59,13 @@ const LaunchpadpageBottomTabsPart: React.VFC<
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    // textShadow:
-    //   value !== 0 ? "none" : `2px 2px 15px ${theme.palette.primary.main}`,
+  };
+  const innerTabStyles = {
+    backgroundColor: `rgba(0,0,0,0.16)`,
   };
 
   // *************** RENDER *************** //
-  if (!teamMembers && !roadmap) return null;
+  if (!localMembers && !roadmap) return null;
   return (
     <SquareBorderBox
       sx={{
@@ -79,6 +82,9 @@ const LaunchpadpageBottomTabsPart: React.VFC<
       >
         {roadmap && (
           <Tab
+            sx={{
+              ...innerTabStyles,
+            }}
             label={
               <Box
                 sx={{
@@ -92,8 +98,11 @@ const LaunchpadpageBottomTabsPart: React.VFC<
             {...a11yProps(0)}
           />
         )}
-        {teamMembers && (
+        {localMembers && (
           <Tab
+            sx={{
+              ...innerTabStyles,
+            }}
             label={
               <Box
                 sx={{
@@ -122,7 +131,7 @@ const LaunchpadpageBottomTabsPart: React.VFC<
           </Box>
         </TabPanel>
       )}
-      {teamMembers && (
+      {localMembers && (
         <TabPanel value={value} index={1}>
           <Box
             sx={{
@@ -133,7 +142,7 @@ const LaunchpadpageBottomTabsPart: React.VFC<
             }}
           >
             <Grid container spacing={[2, 2, 3]}>
-              {teamMembers.map((member) => (
+              {localMembers.map((member) => (
                 <Grid item key={member.name} xs={12} sm={6} md={4} lg={3}>
                   <LaunchpageTeamMemberCard data={member} />
                 </Grid>

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import MarkdownParser from "components/Reusable/MarkdownParser";
 import { ITeamMember } from "lib/interfaces/ITeamMember";
@@ -9,7 +9,7 @@ export type TeamMemberCardPropsType = {
 const LaunchpageTeamMemberCard: React.VFC<TeamMemberCardPropsType> = ({
   data,
 }) => {
-  const { name, title, description, img } = data;
+  const { name, title, description } = data;
 
   // *************** RENDER *************** //
 
@@ -20,18 +20,19 @@ const LaunchpageTeamMemberCard: React.VFC<TeamMemberCardPropsType> = ({
         backgroundImage: "none",
       }}
     >
-      <CardMedia
+      {/* <CardMedia
         component="img"
         height={300}
-        src={img ?? ""}
+        src={getStrapiMedia(img)}
         width={200}
         sx={{
+          display: img ? "block" : "none",
           maxWidth: "100%",
           objectFit: "initial",
           height: "auto",
           backgroundColor: "transparent",
         }}
-      />
+      /> */}
       <CardContent>
         <Typography
           sx={{

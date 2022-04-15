@@ -9,6 +9,8 @@ module.exports = function override(config, env) {
 
   config.resolve.fallback = {
     crypto: require.resolve("crypto-browserify"),
+    path: require.resolve("path-browserify"),
+    fs: require.resolve("browserify-fs"),
   };
   config.plugins
     .push

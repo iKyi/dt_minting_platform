@@ -5,21 +5,22 @@ import { FONTS } from "lib/theme";
 import CountDownBox from "../Homepage/FeaturedMints/CountDownBox";
 import { IMintDataType } from "./FeaturedMintEntry";
 import { Link as RouterLink } from "react-router-dom";
+import { getStrapiMedia } from "lib/theme/media";
 
 export type LaunchPadGridEntryPropsType = {
   data: IMintDataType;
 };
 
 const LaunchPadGridEntry: React.VFC<LaunchPadGridEntryPropsType> = ({
-  data: { image, name, supply, mintPrice, releaseDate, id },
+  data: { image, name, supply, mintPrice, releaseDate, mintId },
 }) => {
   // *************** RENDER *************** //
   return (
     <SquareBorderBox>
-      <CardActionArea component={RouterLink} to={`/launchpad/${id}`}>
+      <CardActionArea component={RouterLink} to={`/launchpad/${mintId}`}>
         <Box
           sx={{
-            background: `url('${image}')`,
+            background: `url('${getStrapiMedia(image)}')`,
             backgroundSize: "cover",
             backgroundPosition: "center center",
             minHeight: [160, 160, 240],

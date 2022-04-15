@@ -4,6 +4,8 @@ import futureMints from "mockData/futureMints";
 import { DateTime } from "luxon";
 import { Box } from "@mui/material";
 import LaunchpadGrid from "./LaunchpadGrid";
+import { axiosStrapiGetter } from "lib/axios/axiosGetter";
+import { mapCollectionsUtil } from "../Homepage/FeaturedMints/FeaturedMintsWrapper";
 
 export type LaunchpadIndexPropsType = {
   children?: any;
@@ -13,6 +15,10 @@ const LaunchpadIndex: React.VFC<LaunchpadIndexPropsType> = ({ children }) => {
   const [mintItems, setMintItems] = useState<IMintDataType[]>([]);
 
   useEffect(() => {
+    axiosStrapiGetter("mint-collections?populate=*").then((procResponse) => {
+      const { data } = procResponse;
+      setMintItems(mapCollectionsUtil(data));
+    });
     setMintItems(futureMints);
   }, []);
 
