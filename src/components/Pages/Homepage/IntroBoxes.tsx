@@ -22,11 +22,11 @@ const IntroBoxes: React.VFC<IntroBoxesPropsType> = ({ children }) => {
           <IntroBoxValueListing
             values={{
               Supply: "25.000.000",
-              Price: "0.2 $",
+              Price: "TBA",
             }}
           />
-          <Button color="error" variant="outlined">
-            BUY NOW
+          <Button color="error" variant="outlined" disabled>
+            Coming soon
           </Button>
         </IntroBoxEntryWrapper>
       </Grid>

@@ -48,12 +48,6 @@ const HomeGamesCarousel: React.VFC<HomeGamesCarouselPropsType> = () => {
         <SwiperSlide>
           <BinaryHackSlide />
         </SwiperSlide>
-        <SwiperSlide>
-          <BinaryHackSlide />
-        </SwiperSlide>
-        <SwiperSlide>
-          <BinaryHackSlide />
-        </SwiperSlide>
       </Swiper>
     </Box>
   );

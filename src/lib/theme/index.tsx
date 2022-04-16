@@ -116,7 +116,7 @@ const getOverRides = (theme: Theme) => {
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            background: `url(${MainBg})`,
+            background: `url(${MainBg}),linear-gradient(180deg, #023733 0%, #000C09 100%)`,
             backgroundAttachment: "fixed",
             backgroundPosition: "top center",
           },

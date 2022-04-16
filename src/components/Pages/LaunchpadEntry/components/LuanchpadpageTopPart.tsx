@@ -8,7 +8,10 @@ import {
   Link as MUILink,
   Button,
 } from "@mui/material";
-import { IMintDataType } from "components/Pages/Launchpad/FeaturedMintEntry";
+import {
+  DisplayStateBox,
+  IMintDataType,
+} from "components/Pages/Launchpad/FeaturedMintEntry";
 import SquareBorderBox from "components/Reusable/Layout/SquareBorderBox";
 import SocialList from "components/Reusable/SocialList";
 import ValueBox from "components/Reusable/ValueBox";
@@ -19,16 +22,19 @@ import { useMemo } from "react";
 import InfoWhitelistBoxes from "./InfoWhitelistBoxes";
 import MintButtonWrapper from "./MintButtonWrapper";
 import CandyMachineBasedStatus from "./CandyMachineBasedStatus";
+import useDisplayMintState from "hooks/useDisplayMintState";
 
 const TagsWhitepaperBox: React.FC<
   Pick<IMintDataType, "tags" | "whitepaperUrl">
 > = ({ tags, whitepaperUrl }) => {
+  const tagEntries = tags?.data?.map((item: any) => item.attributes) ?? null;
+
   return (
     <Box sx={{ mt: "auto", pt: [2, 2, 3] }}>
       <Grid container spacing={[1.5, 1.5, 2.5]}>
-        {tags && tags.length > 0
-          ? tags.map((tagEntry) => (
-              <Grid item xs={12} sm={6} md={4} lg={2} key={tagEntry}>
+        {tagEntries && tagEntries.length > 0
+          ? tagEntries.map((tagEntry: any) => (
+              <Grid item xs={12} sm={6} md={4} lg={2} key={tagEntry.name}>
                 <Box
                   sx={{
                     py: [0.7, 0.7, 0.9],
@@ -43,7 +49,7 @@ const TagsWhitepaperBox: React.FC<
                     ...centerFlex,
                   }}
                 >
-                  {tagEntry}
+                  {tagEntry.name}
                 </Box>
               </Grid>
             ))
@@ -97,6 +103,10 @@ const HeaderPart: React.FC<{
   toggleMintButton,
   isPresale,
 }) => {
+  const { displayBoxContent } = useDisplayMintState(data);
+  const showNative =
+    data?.mintState === "live" || data?.mintState === "showTimer";
+
   const { supply, mintPrice, discord, siteUrl, twitter } = data;
   return (
     <Box>
@@ -109,23 +119,27 @@ const HeaderPart: React.FC<{
         </Grid>
         {candyMachine && (
           <Grid item xs={12} sm={6} lg={3}>
-            <Box
-              sx={{
-                bgcolor: `rgba(0,0,0,0.18)`,
-                py: [0.7, 0.7, 0.9],
-                px: 1.5,
-                textAlign: "center",
-                textTransform: "uppercase",
-              }}
-            >
-              <CandyMachineBasedStatus
-                candyMachine={candyMachine}
-                isActive={isActive}
-                endDate={endDate}
-                isPresale={isPresale}
-                toggleMintButton={toggleMintButton}
-              />
-            </Box>
+            {!showNative ? (
+              <DisplayStateBox content={displayBoxContent} />
+            ) : (
+              <Box
+                sx={{
+                  bgcolor: `rgba(0,0,0,0.18)`,
+                  py: [0.7, 0.7, 0.9],
+                  px: 1.5,
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                }}
+              >
+                <CandyMachineBasedStatus
+                  candyMachine={candyMachine}
+                  isActive={isActive}
+                  endDate={endDate}
+                  isPresale={isPresale}
+                  toggleMintButton={toggleMintButton}
+                />
+              </Box>
+            )}
           </Grid>
         )}
         <Grid item xs={12} sm={6} lg={3}>

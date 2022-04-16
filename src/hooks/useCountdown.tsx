@@ -9,7 +9,7 @@ const useCountdown = (futureDate: string | false | null | undefined) => {
   const getSum = () => {
     if (futureDate) {
       const durationNow = Duration.fromObject((DateTime.now() as any).c);
-      const parsed = DateTime.fromISO(futureDate).toUTC();
+      const parsed = DateTime.fromISO(futureDate, { zone: "utc" }).toUTC();
       const futrDate = Duration.fromObject((parsed as any).c);
 
       const duration = futrDate.minus(durationNow).toFormat("d : h : mm : ss");

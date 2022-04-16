@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { GatewayStatus, useGateway } from "@civic/solana-gateway-react";
 import { useEffect, useState, useRef } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
@@ -8,21 +7,27 @@ import {
   onGatewayTokenChange,
   removeAccountChangeListener,
 } from "@identity.com/solana-gateway-ts";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, styled } from "@mui/material";
 import { CandyMachineAccount } from "providers/Solana/services/candyMachine";
 import useIsUserInWhitelist from "hooks/useIsUserInWhitelist";
 import { IMintDataType } from "components/Pages/Launchpad/FeaturedMintEntry";
+import useDisplayMintState from "hooks/useDisplayMintState";
 
-export const CTAButton = styled(Button)`
-  width: 100%;
-  height: 60px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  background: linear-gradient(180deg, #604ae5 0%, #813eee 100%);
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-`; // add your own styles here
+export const CTAButton = styled(Button)(({ theme }) => ({
+  width: "100%",
+  minHeight: "40px",
+  marginTop: "10px",
+  marginBottom: " 5px",
+  backgroundColor: "#000",
+  color: theme.palette.error.main,
+  border: `1px solid ${theme.palette.error.main}`,
+  fontSize: "16px",
+  fontWeight: "bold",
+  "&:hover": {
+    backgroundColor: theme.palette.error.main,
+    color: "#fff",
+  },
+}));
 
 export const MintButton = ({
   onMint,
@@ -39,6 +44,7 @@ export const MintButton = ({
   isActive: boolean;
   data: IMintDataType;
 }) => {
+  const { strapiState } = useDisplayMintState(pageData);
   const { publicMint } = pageData;
   const isUserInWhitelist = useIsUserInWhitelist(pageData);
 
@@ -51,8 +57,12 @@ export const MintButton = ({
   const [webSocketSubscriptionId, setWebSocketSubscriptionId] = useState(-1);
   const [clicked, setClicked] = useState(false);
 
+  const saleEnded = strapiState === "ended";
+  const soldOut = strapiState === "soldOut";
+  const showTBA = strapiState === "showTba";
+
   const getMintButtonContent = () => {
-    if (candyMachine?.state.isSoldOut) {
+    if (candyMachine?.state.isSoldOut || soldOut) {
       return "SOLD OUT";
     } else if (isMinting) {
       return <CircularProgress />;
@@ -63,6 +73,10 @@ export const MintButton = ({
       return "WHITELIST MINT";
     } else if (cannotMintBecauseNotOnWhitelist) {
       return "WALLET NOT WHITELISTED";
+    } else if (saleEnded) {
+      return "Ended";
+    } else if (showTBA) {
+      return "TBA";
     }
 
     return "MINT NOW";
@@ -106,10 +120,21 @@ export const MintButton = ({
     // console.log("change: ", gatewayStatus);
   }, [setIsMinting, previousGatewayStatus, gatewayStatus]);
 
+  const disabledButton =
+    isMinting ||
+    !isActive ||
+    cannotMintBecauseNotOnWhitelist ||
+    saleEnded ||
+    soldOut ||
+    showTBA;
+
   return (
     <CTAButton
-      disabled={isMinting || !isActive || cannotMintBecauseNotOnWhitelist}
+      disabled={disabledButton}
       onClick={async () => {
+        if (disabledButton) {
+          return null;
+        }
         if (candyMachine?.state.isActive && candyMachine?.state.gatekeeper) {
           const network =
             candyMachine.state.gatekeeper.gatekeeperNetwork.toBase58();

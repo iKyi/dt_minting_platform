@@ -3,17 +3,21 @@ import SquareBorderBox from "components/Reusable/Layout/SquareBorderBox";
 import ValueBox from "components/Reusable/ValueBox";
 import { FONTS } from "lib/theme";
 import CountDownBox from "../Homepage/FeaturedMints/CountDownBox";
-import { IMintDataType } from "./FeaturedMintEntry";
+import { DisplayStateBox, IMintDataType } from "./FeaturedMintEntry";
 import { Link as RouterLink } from "react-router-dom";
 import { getStrapiMedia } from "lib/theme/media";
+import useDisplayMintState from "hooks/useDisplayMintState";
 
 export type LaunchPadGridEntryPropsType = {
   data: IMintDataType;
 };
 
 const LaunchPadGridEntry: React.VFC<LaunchPadGridEntryPropsType> = ({
-  data: { image, name, supply, mintPrice, releaseDate, mintId },
+  data,
 }) => {
+  const { image, name, supply, mintPrice, releaseDate, mintId } = data;
+  const { displayBoxContent } = useDisplayMintState(data);
+  const isShowDate = data.mintState === "showTimer";
   // *************** RENDER *************** //
   return (
     <SquareBorderBox>
@@ -53,9 +57,14 @@ const LaunchPadGridEntry: React.VFC<LaunchPadGridEntryPropsType> = ({
             sx={{ mb: 1, width: ["100%", "100%", "auto"] }}
           />
         </Box>
-        <CountDownBox sx={{ width: "100%", minWidth: 0 }} smaller>
-          {releaseDate}
-        </CountDownBox>
+
+        {!isShowDate ? (
+          <DisplayStateBox content={displayBoxContent} />
+        ) : (
+          <CountDownBox sx={{ width: "100%", minWidth: 0 }} smaller>
+            {releaseDate}
+          </CountDownBox>
+        )}
       </CardActionArea>
     </SquareBorderBox>
   );

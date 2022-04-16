@@ -6,6 +6,7 @@ import FeaturedSupplySocialBox from "../Homepage/FeaturedMints/FeaturedSupplySoc
 import { Link as RouterLink } from "react-router-dom";
 import { getStrapiMedia } from "lib/theme/media";
 import { ITeamMember } from "lib/interfaces/ITeamMember";
+import useDisplayMintState from "hooks/useDisplayMintState";
 
 export type IMintDataType = {
   name: string;
@@ -16,12 +17,10 @@ export type IMintDataType = {
   image: string;
   mintPrice: number;
   releaseDate: string | false | null;
-  released?: boolean;
   discord?: string;
   twitter?: string;
   siteUrl?: string;
-  soldOut?: boolean;
-  tags?: string[];
+  tags?: any;
   roadmap?: string;
   whitepaperUrl?: string;
   candyMachineId: string;
@@ -35,6 +34,7 @@ export type IMintDataType = {
   teamMembers?: {
     data: { attributes: ITeamMember }[];
   };
+  mintState: "soldOut" | "ended" | "live" | "showTimer" | "showTba";
   whitelistedWallets: Record<any, any>;
 };
 
@@ -42,8 +42,27 @@ export type FeaturedMintEntryPropsType = {
   data: IMintDataType;
 };
 
-const FeaturedMintEntry: React.VFC<FeaturedMintEntryPropsType> = ({
-  data: {
+export const DisplayStateBox: React.FC<{ content: string }> = ({ content }) => {
+  return (
+    <Box
+      sx={{
+        textTransform: "capitalize",
+        color: "error.main",
+        fontSize: "1.1rem",
+        textAlign: "center",
+        fontWeight: 600,
+        bgcolor: `rgba(0,0,0,0.16)`,
+        py: [0.7],
+        px: [1, 1, 1.5],
+      }}
+    >
+      {content}
+    </Box>
+  );
+};
+
+const FeaturedMintEntry: React.VFC<FeaturedMintEntryPropsType> = ({ data }) => {
+  const {
     releaseDate,
     description,
     image,
@@ -51,12 +70,12 @@ const FeaturedMintEntry: React.VFC<FeaturedMintEntryPropsType> = ({
     name,
     supply,
     discord,
-    released,
     siteUrl,
     twitter,
     mintId,
-  },
-}) => {
+  } = data;
+  const { displayBoxContent } = useDisplayMintState(data);
+  const isShowDate = data.mintState === "showTimer";
   // *************** RENDER *************** //
   return (
     <Box
@@ -129,7 +148,11 @@ const FeaturedMintEntry: React.VFC<FeaturedMintEntryPropsType> = ({
             twitter={twitter}
           />
         </Box>
-        <CountDownBox>{releaseDate}</CountDownBox>
+        {!isShowDate ? (
+          <DisplayStateBox content={displayBoxContent} />
+        ) : (
+          <CountDownBox>{releaseDate}</CountDownBox>
+        )}
       </Box>
     </Box>
   );

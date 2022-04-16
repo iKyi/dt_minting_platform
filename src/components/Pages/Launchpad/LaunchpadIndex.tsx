@@ -23,7 +23,7 @@ const LaunchpadIndex: React.VFC<LaunchpadIndexPropsType> = ({ children }) => {
   }, []);
 
   const { future, released } = useMemo(() => {
-    const today = DateTime.now();
+    const today = DateTime.now().toUTC();
     let future: IMintDataType[] = [];
     let released: IMintDataType[] = [];
 
@@ -31,7 +31,9 @@ const LaunchpadIndex: React.VFC<LaunchpadIndexPropsType> = ({ children }) => {
       if (!mint.releaseDate) {
         future.push(mint);
       } else {
-        const formattedDate = DateTime.fromISO(mint.releaseDate);
+        const formattedDate = DateTime.fromISO(mint.releaseDate, {
+          zone: "utc",
+        });
         if (formattedDate > today) {
           future.push(mint);
         } else {

@@ -1,10 +1,13 @@
 import AboutUsIcon from "components/Icons/AboutUsIcon";
 import ChipIcon from "components/Icons/ChipIcon";
 import CollectionsIcon from "components/Icons/CollectionsIcon";
+import ConsoleIcon from "components/Icons/ConsoleIcon";
 import HomeIcon from "components/Icons/HomeIcon";
+import KnobsIcon from "components/Icons/KnobsIcon";
 import LaunchpadIcon from "components/Icons/LanchpadIcon";
 import NftsIcon from "components/Icons/NftsIcon";
 import StarIcon from "components/Icons/StarIcon";
+import SuitcaseIcon from "components/Icons/SuitcaseIcon";
 
 export interface INavMenuItem {
   title: string;
@@ -44,6 +47,30 @@ const navMenuItems: INavMenuItem[] = [
     disabled: true,
   },
   {
+    category: "Games",
+    title: "Binary Hack",
+    url: "https://games.darkterminal.io/",
+    icon: ConsoleIcon,
+  },
+  {
+    category: "Games",
+    title: "Hack The System",
+    url: "https://games.darkterminal.io/",
+    icon: ConsoleIcon,
+  },
+  {
+    category: "Games",
+    title: "Trinity Hack",
+    url: "https://games.darkterminal.io/",
+    icon: ConsoleIcon,
+  },
+  {
+    category: "Games",
+    title: "Operations",
+    disabled: true,
+    icon: SuitcaseIcon,
+  },
+  {
     category: "Jobs",
     title: "Projects",
     url: "/projects",
@@ -56,6 +83,36 @@ const navMenuItems: INavMenuItem[] = [
     url: "/developers",
     icon: ChipIcon,
     disabled: true,
+  },
+  {
+    category: "Minting Services",
+    title: "Pack Minting",
+    disabled: true,
+    icon: KnobsIcon,
+  },
+  {
+    category: "Minting Services",
+    title: "Blending",
+    disabled: true,
+    icon: KnobsIcon,
+  },
+  {
+    category: "Minting Services",
+    title: "Generative",
+    disabled: true,
+    icon: KnobsIcon,
+  },
+  {
+    category: "Partnershipts",
+    title: "Immortal Arena",
+    disabled: true,
+    icon: StarIcon,
+  },
+  {
+    category: "Partnershipts",
+    title: "Perseus",
+    disabled: true,
+    icon: StarIcon,
   },
 ];
 

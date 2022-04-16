@@ -12,11 +12,22 @@ const DesktopLeftMenuWrapper = styled(Box)(({ theme }) => ({
   left: 0,
   alignSelf: "flex-start",
   [theme.breakpoints.up("md")]: {
-    maxHeight: `calc(100vh - ${PublicHeaderHeight}px)`,
+    maxHeight: `calc(100vh - ${PublicHeaderHeight + 40}px)`,
   },
   overflowY: "auto",
   [theme.breakpoints.down("md")]: {
     display: "none",
+  },
+  "&::-webkit-scrollbar": {
+    width: "0.4em",
+  },
+  "&::-webkit-scrollbar-track": {
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.75)",
+    webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.75)",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: (theme.palette.primary as any).darker,
+    outline: "1px solid #000",
   },
 }));
 
