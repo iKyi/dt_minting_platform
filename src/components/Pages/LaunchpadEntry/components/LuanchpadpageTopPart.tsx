@@ -168,8 +168,15 @@ export type LuanchpadpageTopPartPropsType = {
 const LuanchpadpageTopPart: React.VFC<LuanchpadpageTopPartPropsType> = ({
   data,
 }) => {
-  const { image, name, description, tags, whitepaperUrl, candyMachineId } =
-    data;
+  const {
+    image,
+    name,
+    description,
+    tags,
+    whitepaperUrl,
+    candyMachineId,
+    supply,
+  } = data;
 
   // *************** PROPERTIES FOR TRIGGERING MINT API *************** //
   const candyMachineIdParsed = useMemo(() => {
@@ -234,7 +241,10 @@ const LuanchpadpageTopPart: React.VFC<LuanchpadpageTopPartPropsType> = ({
             {/* DESCRIPTIOn */}
             {description && <Typography>{description}</Typography>}
             {/* WHITELIST BOXES */}
-            <InfoWhitelistBoxes data={data} itemsRemaining={itemsRemaining} />
+            <InfoWhitelistBoxes
+              data={data}
+              itemsRemaining={supply - (itemsRemaining ?? 0)}
+            />
             {/* TAGS BOXES */}
             <TagsWhitepaperBox tags={tags} whitepaperUrl={whitepaperUrl} />
           </Box>
