@@ -109,7 +109,7 @@ const InfoWhitelistBoxes: React.VFC<InfoWhitelistBoxesPropsType> = ({
         {itemsRemaining && itemsRemaining !== 0 && connected ? (
           <DarkValueBox
             title="MINTED"
-            value={`${supply - itemsRemaining}/${supply}`}
+            value={`${itemsRemaining}/${supply}`}
           />
         ) : null}
         {itemsRemaining && (
