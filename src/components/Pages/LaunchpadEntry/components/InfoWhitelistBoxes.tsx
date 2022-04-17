@@ -107,16 +107,15 @@ const InfoWhitelistBoxes: React.VFC<InfoWhitelistBoxesPropsType> = ({
         <DarkValueBox title="OPEN MINT" value={mintsText} />
         <DarkValueBox title="PRICE" value={`${mintPrice} SOL`} />
         {itemsRemaining && itemsRemaining !== 0 && connected ? (
-          <DarkValueBox
-            title="MINTED"
-            value={`${itemsRemaining}/${supply}`}
-          />
+          <DarkValueBox title="MINTED" value={`${itemsRemaining}/${supply}`} />
         ) : null}
-        {itemsRemaining && (
+        {itemsRemaining ? (
           <GreenRemainingLine
             value1={supply - itemsRemaining}
             value2={supply}
           />
+        ) : (
+          <GreenRemainingLine value1={0} value2={supply} />
         )}
         {/* <DarkValueBox title="WHITELIST #2" value={whitelistTwoText} />
         <DarkValueBox title="WHITELIST #3" value={whitelistThreeText} />
