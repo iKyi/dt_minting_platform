@@ -2,6 +2,7 @@ import { IMintDataType } from "components/Pages/Launchpad/FeaturedMintEntry";
 import { SxProps, Box, Typography } from "@mui/material";
 import React, { useMemo } from "react";
 import GreenRemainingLine from "./GreenRemainingLine";
+import { useWallet } from "@solana/wallet-adapter-react";
 export type InfoWhitelistBoxesPropsType = {
   data: IMintDataType;
   itemsRemaining: number | undefined;
@@ -51,6 +52,8 @@ const InfoWhitelistBoxes: React.VFC<InfoWhitelistBoxesPropsType> = ({
     mintPrice,
     supply,
   } = data;
+
+  const { connected } = useWallet();
 
   const mintsText = useMemo(() => {
     let text = "NONE";
@@ -103,12 +106,12 @@ const InfoWhitelistBoxes: React.VFC<InfoWhitelistBoxesPropsType> = ({
       >
         <DarkValueBox title="OPEN MINT" value={mintsText} />
         <DarkValueBox title="PRICE" value={`${mintPrice} SOL`} />
-        {itemsRemaining && (
+        {itemsRemaining && itemsRemaining !== 0 && connected ? (
           <DarkValueBox
             title="MINTED"
             value={`${supply - itemsRemaining}/${supply}`}
           />
-        )}
+        ) : null}
         {itemsRemaining && (
           <GreenRemainingLine
             value1={supply - itemsRemaining}
