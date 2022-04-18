@@ -36,9 +36,8 @@ const navMenuItems: INavMenuItem[] = [
   },
   {
     title: "NFTs",
-    url: "/nfts/",
     icon: NftsIcon,
-    disabled: true,
+    url: "https://staking.darkterminal.io/",
   },
   {
     title: "About us",
@@ -103,13 +102,13 @@ const navMenuItems: INavMenuItem[] = [
     icon: KnobsIcon,
   },
   {
-    category: "Partnershipts",
+    category: "Partnerships",
     title: "Immortal Arena",
     disabled: true,
     icon: StarIcon,
   },
   {
-    category: "Partnershipts",
+    category: "Partnerships",
     title: "Perseus",
     disabled: true,
     icon: StarIcon,

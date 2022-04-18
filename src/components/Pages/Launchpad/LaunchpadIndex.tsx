@@ -33,7 +33,7 @@ const LaunchpadIndex: React.VFC<LaunchpadIndexPropsType> = ({ children }) => {
       } else {
         const formattedDate = DateTime.fromISO(mint.releaseDate, {
           zone: "utc",
-        });
+        }).toUTC();
         if (formattedDate > today) {
           future.push(mint);
         } else {
