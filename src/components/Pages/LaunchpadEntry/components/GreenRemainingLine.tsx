@@ -39,7 +39,7 @@ const GreenRemainingLine: React.VFC<GreenRemainingLinePropsType> = ({
             left: 0,
             top: 0,
             height: "100%",
-            width: `${tubeWidth}%`,
+            width: `calc(100% - ${tubeWidth}%)`,
             bgcolor: "primary.main",
           }}
         ></Box>
