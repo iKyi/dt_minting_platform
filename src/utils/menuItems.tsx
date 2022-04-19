@@ -104,7 +104,7 @@ const navMenuItems: INavMenuItem[] = [
   {
     category: "Partnerships",
     title: "Immortal Arena",
-    disabled: true,
+    url: "https://immortalarena.io/",
     icon: StarIcon,
   },
   {
