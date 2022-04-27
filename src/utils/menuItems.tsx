@@ -26,7 +26,7 @@ const navMenuItems: INavMenuItem[] = [
   },
   {
     title: "Collections",
-    disabled: true,
+    url: "/collections",
     icon: CollectionsIcon,
   },
   {

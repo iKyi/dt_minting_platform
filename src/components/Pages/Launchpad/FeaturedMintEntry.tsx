@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { getStrapiMedia } from "lib/theme/media";
 import { ITeamMember } from "lib/interfaces/ITeamMember";
 import useDisplayMintState from "hooks/useDisplayMintState";
+import { centerFlex } from "lib/sxUtils";
 
 export type IMintDataType = {
   name: string;
@@ -54,6 +55,7 @@ export const DisplayStateBox: React.FC<{ content: string }> = ({ content }) => {
         bgcolor: `rgba(0,0,0,0.16)`,
         py: [0.7],
         px: [1, 1, 1.5],
+        ...centerFlex,
       }}
     >
       {content}

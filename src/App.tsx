@@ -12,12 +12,18 @@ import LaunchpadPage from "pages/LaunchpadPage";
 import DevelopersPage from "pages/DevelopersPage";
 import ProjectsPage from "pages/ProjectsPage";
 import LaunchpadPageEntry from "components/Pages/LaunchpadEntry/LaunchpadPageEntry";
+import CollectionsPage from "pages/CollectionsPage";
+import CollectionEntry from "components/CollectionEntry/CollectionEntry";
+import PackEntryIndex from "components/PackEntry/PackEntryIndex";
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <Routes>
         <Route element={<Home />} path="/" />
+        <Route element={<CollectionsPage />} path="/collections" />
+        <Route element={<CollectionEntry />} path="/collections/:id" />
+        <Route element={<PackEntryIndex />} path="/collections/:id/packs/:id" />
         <Route element={<AboutUsPage />} path="/about-us" />
         <Route element={<NftsPage />} path="/nfts" />
         <Route element={<LaunchpadPage />} path="/launchpad" />
@@ -32,6 +38,6 @@ function App() {
       <BlockingSnabarsProvider />
     </>
   );
-}
+};
 
 export default App;
